@@ -1,1 +1,5 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ZusumeHub/ZusumeHub/refs/heads/main/Gyr2"))()
+
+wait(3)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/reqqewqe/SCRIPTS/refs/heads/main/Dupe%20script", true))()
