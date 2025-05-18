@@ -1,8 +1,2 @@
 -- First script
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ZusumeHub/ZusumeHub/refs/heads/main/Gyr2"))()
-
--- Wait a bit before the next
-wait(3)
-
--- Second script
-loadstring(game:HttpGet("https://raw.githubusercontent.com/reqqewqe/SCRIPTS/refs/heads/main/Dupe%20script", true))()
