@@ -1,1 +1,8 @@
-loadstring(game:HttpGet("https://pastefy.app/Yadvz6vf/raw"))()
+-- First script
+loadstring(game:HttpGet("https://raw.githubusercontent.com/reqqewqe/SCRIPTS/refs/heads/main/Working%20Script%20Candy%20Blossom%20Dupe%20Script",true))()
+
+-- Wait a bit before the next
+wait(3)
+
+-- Second script
+loadstring(game:HttpGet("https://raw.githubusercontent.com/reqqewqe/SCRIPTS/refs/heads/main/Dupe%20Script", true))()
