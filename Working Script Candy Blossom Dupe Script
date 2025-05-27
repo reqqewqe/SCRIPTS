@@ -1,8 +1,237 @@
--- First script
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ZusumeHub/ZusumeHub/refs/heads/main/Gyr2"))()
+local CoreGui = game:GetService("CoreGui")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local backpack = player:WaitForChild("Backpack")
 
--- Wait a bit before the next
-wait(3)
+-- Clean up old GUI if already present
+if CoreGui:FindFirstChild("SeedSpawnerUI") then
+    CoreGui.SeedSpawnerUI:Destroy()
+end
 
--- Second script
-loadstring(game:HttpGet("https://raw.githubusercontent.com/reqqewqe/SCRIPTS/refs/heads/main/Dupe%20script", true))()
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "SeedSpawnerUI"
+ScreenGui.ResetOnSpawn = false
+
+local Frame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local Input = Instance.new("TextBox")
+local Button = Instance.new("TextButton")
+local Footer = Instance.new("TextLabel")
+local Close = Instance.new("TextButton")
+local UIGradient = Instance.new("UIGradient")
+local DropShadow = Instance.new("ImageLabel")
+
+-- Frame setup
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+Frame.Position = UDim2.new(0.35, 0, 0.3, 0)
+Frame.Size = UDim2.new(0, 300, 0, 220)
+Frame.ClipsDescendants = true
+Frame.Active = true
+Frame.Draggable = true
+
+-- Add drop shadow
+DropShadow.Parent = Frame
+DropShadow.Name = "DropShadow"
+DropShadow.BackgroundTransparency = 1
+DropShadow.BorderSizePixel = 0
+DropShadow.Size = UDim2.new(1, 0, 1, 0)
+DropShadow.ZIndex = 0
+DropShadow.Image = "rbxassetid://1316045217"
+DropShadow.ImageColor3 = Color3.new(0, 0, 0)
+DropShadow.ImageTransparency = 0.8
+DropShadow.ScaleType = Enum.ScaleType.Slice
+DropShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+
+-- Gradient for frame
+UIGradient.Parent = Frame
+UIGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 30, 40)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(15, 15, 20))
+})
+UIGradient.Rotation = 90
+
+-- Rounded corners
+UICorner.Parent = Frame
+UICorner.CornerRadius = UDim.new(0, 8)
+
+-- Title
+Title.Parent = Frame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0, 15)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "SEED SPAWNER V1.3"
+Title.TextColor3 = Color3.fromRGB(220, 220, 255)
+Title.TextSize = 18
+Title.TextTransparency = 0.1
+
+-- Input Box
+Input.Parent = Frame
+Input.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+Input.Position = UDim2.new(0.1, 0, 0.35, 0)
+Input.Size = UDim2.new(0.8, 0, 0, 36)
+Input.Font = Enum.Font.Gotham
+Input.PlaceholderText = "Enter seed name..."
+Input.Text = ""
+Input.TextColor3 = Color3.fromRGB(220, 220, 255)
+Input.TextSize = 14
+Input.ClearTextOnFocus = false
+
+local inputCorner = Instance.new("UICorner", Input)
+inputCorner.CornerRadius = UDim.new(0, 6)
+
+local inputStroke = Instance.new("UIStroke", Input)
+inputStroke.Color = Color3.fromRGB(80, 80, 120)
+inputStroke.Thickness = 1
+
+-- Spawn Button
+Button.Parent = Frame
+Button.BackgroundColor3 = Color3.fromRGB(50, 60, 120)
+Button.Position = UDim2.new(0.1, 0, 0.6, 0)
+Button.Size = UDim2.new(0.8, 0, 0, 40)
+Button.Font = Enum.Font.GothamBold
+Button.Text = "SPAWN SEED"
+Button.TextColor3 = Color3.fromRGB(240, 240, 255)
+Button.TextSize = 16
+Button.AutoButtonColor = false
+
+local buttonCorner = Instance.new("UICorner", Button)
+buttonCorner.CornerRadius = UDim.new(0, 6)
+
+local buttonStroke = Instance.new("UIStroke", Button)
+buttonStroke.Color = Color3.fromRGB(100, 120, 200)
+buttonStroke.Thickness = 1
+
+-- Button hover effects
+Button.MouseEnter:Connect(function()
+    TweenService:Create(Button, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(60, 80, 160)}):Play()
+    TweenService:Create(buttonStroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(140, 160, 255)}):Play()
+end)
+
+Button.MouseLeave:Connect(function()
+    TweenService:Create(Button, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(50, 60, 120)}):Play()
+    TweenService:Create(buttonStroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(100, 120, 200)}):Play()
+end)
+
+Button.MouseButton1Down:Connect(function()
+    TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(40, 50, 100)}):Play()
+end)
+
+Button.MouseButton1Up:Connect(function()
+    TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(60, 80, 160)}):Play()
+end)
+
+-- Close Button (X)
+Close.Parent = Frame
+Close.Position = UDim2.new(1, -30, 0, 8)
+Close.Size = UDim2.new(0, 24, 0, 24)
+Close.BackgroundColor3 = Color3.fromRGB(60, 30, 30)
+Close.Text = "×"
+Close.Font = Enum.Font.GothamBold
+Close.TextColor3 = Color3.fromRGB(220, 150, 150)
+Close.TextSize = 20
+Close.AutoButtonColor = false
+
+local closeCorner = Instance.new("UICorner", Close)
+closeCorner.CornerRadius = UDim.new(1, 0)
+
+local closeStroke = Instance.new("UIStroke", Close)
+closeStroke.Color = Color3.fromRGB(120, 60, 60)
+closeStroke.Thickness = 1
+
+-- Close button hover effects
+Close.MouseEnter:Connect(function()
+    TweenService:Create(Close, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(100, 40, 40)}):Play()
+    TweenService:Create(closeStroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(180, 80, 80)}):Play()
+end)
+
+Close.MouseLeave:Connect(function()
+    TweenService:Create(Close, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(60, 30, 30)}):Play()
+    TweenService:Create(closeStroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(120, 60, 60)}):Play()
+end)
+
+Close.MouseButton1Click:Connect(function()
+    local fadeOut = TweenService:Create(Frame, TweenInfo.new(0.2), {Position = UDim2.new(0.35, 0, 0.25, 0), Size = UDim2.new(0, 300, 0, 0)})
+    fadeOut:Play()
+    fadeOut.Completed:Wait()
+    ScreenGui:Destroy()
+end)
+
+-- Footer
+Footer.Parent = Frame
+Footer.BackgroundTransparency = 1
+Footer.Position = UDim2.new(0, 0, 0.88, 0)
+Footer.Size = UDim2.new(1, 0, 0, 20)
+Footer.Font = Enum.Font.Gotham
+Footer.Text = "MADE BY NOCTURNAL.3"
+Footer.TextColor3 = Color3.fromRGB(150, 150, 180)
+Footer.TextSize = 12
+Footer.TextTransparency = 0.3
+
+-- Entry animation
+Frame.Position = UDim2.new(0.35, 0, 0.25, 0)
+Frame.Size = UDim2.new(0, 300, 0, 0)
+local openTween = TweenService:Create(Frame, TweenInfo.new(0.3, Enum.EasingStyle.Quad), {
+    Position = UDim2.new(0.35, 0, 0.3, 0),
+    Size = UDim2.new(0, 300, 0, 220)
+})
+openTween:Play()
+
+-- Spawn Logic
+Button.MouseButton1Click:Connect(function()
+    local seedName = Input.Text
+    if seedName == "" then
+        warn("Please enter a seed name.")
+        return
+    end
+
+    print("Attempting to spawn seed:", seedName)
+
+    local SeedModels = ReplicatedStorage:FindFirstChild("Seed_Models")
+    if SeedModels then
+        local seedPart = SeedModels:FindFirstChild(seedName)
+        if seedPart then
+            -- Create a fake Tool with custom name format
+            local fakeTool = Instance.new("Tool")
+            fakeTool.Name = seedName .. " Seed [x1]"
+            fakeTool.RequiresHandle = true
+            fakeTool.Parent = backpack
+
+            -- Clone the seed and make it the handle
+            local handle = seedPart:Clone()
+            handle.Name = "Handle"
+            handle.Parent = fakeTool
+
+            -- Equip the fake tool (client-side)
+            local humanoid = char:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid:EquipTool(fakeTool)
+                print("Now visually holding the seed as a Tool!")
+                
+                -- Button click confirmation animation
+                local originalText = Button.Text
+                Button.Text = "SPAWNED!"
+                TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 120, 60)}):Play()
+                TweenService:Create(buttonStroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(100, 200, 120)}):Play()
+                wait(0.8)
+                Button.Text = originalText
+                TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 60, 120)}):Play()
+                TweenService:Create(buttonStroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(100, 120, 200)}):Play()
+            else
+                warn("No Humanoid found in character.")
+            end
+        else
+            warn(seedName .. " not found in Seed_Models")
+            -- Shake animation for error
+            local shake = TweenService:Create(Input, TweenInfo.new(0.1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 3, true), {Position = UDim2.new(0.09, 0, 0.35, 0)})
+            shake:Play()
+        end
+    else
+        warn("Seed_Models folder not found")
+    end
+end)
